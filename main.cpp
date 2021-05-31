@@ -5,10 +5,12 @@
 #include "Euiler.h"
 using namespace std;
 
+random_device rng;
 int main() {
 	InputProc input;
-
-	input.getfile("ref.txt", "readsfile.txt");
+	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortReads.txt");
+	//이미 있는데 make호출시 shortreads.txt와 modifiedseq.txt, inputProc의 내용이 변경됨
+	input.makeRandomReads(500, 80, rng);
 
 	//1-1 첫번째과정
 	//BWT알고리즘 활용

@@ -1,5 +1,5 @@
 #include "Euiler.h"
 
-void Euiler::Restore(vector<string>& misRead)
+void Euiler::Restore(const vector<string>& misRead)
 {
 }
