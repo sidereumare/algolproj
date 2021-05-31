@@ -11,6 +11,6 @@ public:
 	string restore;
 
 	//bruteforce를 이용하여 복원시도, mismatch발생시 misRead로 저장
-	void Restore(vector<string>& ShortLeads);
+	void Restore(const vector<string>& ShortLeads);
 };
 

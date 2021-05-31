@@ -12,7 +12,7 @@ public:
 	string bwt;
 
 	//BWT를 이용하여 복원시도, mismatch발생시 misRead로 저장
-	void Restore(vector<string>& ShortLeads, string& ref, vector<int>& snipPos);
-	void makeBWT(string& ref);
+	void Restore(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos);
+	void makeBWT(const string& ref);
 };
 

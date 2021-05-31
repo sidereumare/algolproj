@@ -1,9 +1,9 @@
 #include "BWT.h"
 
-void BWT::Restore(vector<string>& ShortLeads, string& ref, vector<int>& snipPos)
+void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos)
 {
 }
 
-void BWT :: makeBWT(string& ref){
+void BWT :: makeBWT(const string& ref){
 
 }
