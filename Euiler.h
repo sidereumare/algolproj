@@ -12,7 +12,7 @@ public:
 	vector<string> restored;
 	//Euiler
 	
-	void restore(vector<string> &misRead);
+	void Restore(vector<string> &misRead);
 	void find_pos(const string& restored, const vector<string>& mis);
 
 };
