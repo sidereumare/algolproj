@@ -143,7 +143,7 @@ for(int i=0; i<n; i++){
         // Raita에서는 처음문자 중간문자 끝 문자가 같은지 먼저 비교한다.
         if(lastCh == c) {
             if (middleCh == ref[s + m / 2]) {
-                if (firstCh != ref[s]) {
+                if (firstCh == ref[s]) {
                     // 패턴에서 현재 가리키는 문자와 레퍼런스에서 현재 가리키는 문자가 같다면 계속 j를 shortread의 마지막에서부터 줄여간다.
                     // 오->왼 순으로 비교해 나간다.
                     while (j >= 0) {
@@ -210,9 +210,9 @@ for(int i=0; i<n; i++){
             c = ref[s + m - 1];
 
             // Raita에서는 처음문자 중간문자 끝 문자가 같은지 먼저 비교한다.
-            if (lastCh != c) {
-                if (middleCh != ref[s + m / 2]) {
-                    if (firstCh != ref[s]) {
+            if (lastCh == c) {
+                if (middleCh == ref[s + m / 2]) {
+                    if (firstCh == ref[s]) {
 
                         // 패턴에서 현재 가리키는 문자와 레퍼런스에서 현재 가리키는 문자가 같다면 계속 j를 shortread의 마지막에서부터 줄여간다.
                         // 오->왼 순으로 비교해 나간다.
@@ -246,6 +246,7 @@ for(int i=0; i<n; i++){
                     }
                 }
             }
+            s += max(1, badchar[c]);
         }
         if (s >= m - k) {
             misRead.push_back(ShortLeads[i]);
