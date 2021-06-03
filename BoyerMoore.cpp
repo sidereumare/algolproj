@@ -189,7 +189,7 @@ for(int i=0; i<n; i++){
 
     for (int i = 0; i < n; i++) {
         int badchar[256]; // 256은 문자의 개수
-        int skip_tb[m + 1]; // 몇개 건너 뛸 수 있는지 알려주는 테이블
+        int *skip_tb = new int[m + 1]; // 몇개 건너 뛸 수 있는지 알려주는 테이블
 
         // bad char 배열을 현재 short_read에 맞게 채운다.
         badCharHeuristic(ShortLeads[i], k, badchar);
@@ -282,7 +282,7 @@ void BoyerMoore::make_gs_table(const string pattern, int* skip_tb) {
     int suffix_point = pattern_point + 1;
 
     // 접미사와 동일한 문자열 체크하는 테이블
-    int suf_tb[p_size + 1];
+    int *suf_tb = new int[p_size + 1];
     suf_tb[pattern_point] = suffix_point;
 
     while (pattern_point > 0) {

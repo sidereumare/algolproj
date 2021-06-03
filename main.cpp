@@ -64,11 +64,11 @@ int main() {
 	
 	//2
 	//euiler로 misRead를 처리하여 sequence를 복원
-	chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
+	chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
 	Euiler bwt_euiler;
 	vector<string>* restored_mis;
 	restored_mis = bwt_euiler.Restore(bwt.misRead, bwt.misRead[0].length()/3);
-	chrono::system_clock::time_point boyer_end = chrono::system_clock::now();
+	chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
 
 
 	string restored;
