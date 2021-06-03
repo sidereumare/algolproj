@@ -123,7 +123,7 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 	//insertion
 	char ch[4] = { 'A', 'T', 'C', 'G' };
 	uniform_int_distribution<int> rand_gene(0, 3);
-	int num = rng_num(rng);
+	num = rng_num(rng);
 	for (int i = 0; i < num; i++) {
 		string insert_seq = "";
 		int make_size = rng_size(rng);
@@ -135,7 +135,7 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 	}
 
 	//deletion
-	int num = rng_num(rng);
+	num = rng_num(rng);
 	for (int i = 0; i < num; i++) {
 		int pos = rng_pos(rng);
 		modify.erase(pos, pos + rng_size(rng));
