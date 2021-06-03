@@ -105,6 +105,42 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 		}
 	}
 
+	
+	//변이 크기
+	uniform_int_distribution<int> rng_size(50, 1000);
+	//변이 위치
+	uniform_int_distribution<int> rng_pos(1000, ref.length() - 1000);
+	//변이 갯수
+	uniform_int_distribution<int> rng_num(50, 70);
+
+	//reverse
+	int num = rng_num(rng);
+	for (int i = 0; i < num; i < i++) {
+		int pos = rng_pos(rng);
+		reverse(modify.begin() + pos, modify.begin() + pos + rng_size(rng));
+	}
+
+	//insertion
+	char ch[4] = { 'A', 'T', 'C', 'G' };
+	uniform_int_distribution<int> rand_gene(0, 3);
+	int num = rng_num(rng);
+	for (int i = 0; i < num; i++) {
+		string insert_seq = "";
+		int make_size = rng_size(rng);
+		for (int i = 0; i < make_size; i++) {
+			insert_seq.push_back(ch[rand_gene(rng)]);
+		}
+		int pos = rng_pos(rng);
+		modify.insert(pos, insert_seq);
+	}
+
+	//deletion
+	int num = rng_num(rng);
+	for (int i = 0; i < num; i++) {
+		int pos = rng_pos(rng);
+		modify.erase(pos, pos + rng_size(rng));
+	}
+
 	modifiedSeq = modify;
 	ofstream fout("modifiedSeq.txt");
 	fout << modify;

@@ -74,13 +74,13 @@ int main() {
 	string restored;
 	//3 복원한 sequence를 1단계에서 복원한 sequence와 concat시킵니다.
 	string result = Concat::concat(restored, *restored_mis);
+	
 
-
-	vector<string> mis = { "00100", "10100"};
-	chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
-	Euiler bwt_euiler;
-	bwt_euiler.Restore(mis, 4);
-	chrono::system_clock::time_point boyer_end = chrono::system_clock::now();
+	//vector<string> mis = { "00100", "10100"};
+	//chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
+	//Euiler bwt_euiler;
+	//bwt_euiler.Restore(mis, 4);
+	//chrono::system_clock::time_point boyer_end = chrono::system_clock::now();
 	
 	//성능평가
 	//cout<<calcDifference("abc", "acb");
