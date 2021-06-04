@@ -1,7 +1,7 @@
 
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
+#*.vcxproj
+#*.vcxproj.filters
+#*.vcxproj.user
 Debug/
 x64/
 
