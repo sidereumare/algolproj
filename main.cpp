@@ -76,12 +76,12 @@ int main() {
 	//euiler로 Boyer-Moore 로 만들어진 misRead를 처리하여 sequence를 복원
 	chrono::system_clock::time_point euiler_start1 = chrono::system_clock::now();
 	Euiler bwt_euiler;
-	vector<string>* restored_mis;
-	restored_mis = bwt_euiler.Restore(bwt.misRead, bwt.misRead[0].length() / 3);
+	vector<string>* restored_mis1;
+	restored_mis1 = bwt_euiler.Restore(bwt.misRead, bwt.misRead[0].length() / 3);
 	chrono::system_clock::time_point euiler_end1 = chrono::system_clock::now();
 
 	//3-1 복원한 sequence를 1-1단계에서 복원한 sequence와 concat시킵니다.
-	string result1 = Concat::concat(bwt.restore, *restored_mis);
+	string result1 = Concat::concat(bwt.restore, *restored_mis1);
 
 
 	//성능 벤치마크용

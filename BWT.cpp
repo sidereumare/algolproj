@@ -2,6 +2,11 @@
 
 void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos) {
     // fix error..
+
+
+
+
+
 }
 
 void BWT :: makeBWT(const string& ref){
