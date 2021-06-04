@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <set>
 
 using namespace std;
 class Benchmark
@@ -11,6 +12,12 @@ public:
 	string restore;
 
 	//bruteforce를 이용하여 복원시도, mismatch발생시 misRead로 저장
-	void Restore(const vector<string>& ShortLeads);
+	void RestoreBrute(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos);
+
+	//KMP를 이용하여 복원시도, mismatch발생시 misRead로 저장
+	void RestoreKMP(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos);
+
+	//ComputeSP()
+	int* computeSP(const string ShortLead);
 };
 
