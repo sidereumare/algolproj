@@ -1,21 +1,31 @@
 #include "BWT.h"
-#include <algorithm>
-void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos) {
 
+void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos) {
+    // 갈아엎는중..
 }
 
 void BWT :: makeBWT(const string& ref){
-  int length = ref.length();
+  // $ 추가 후 rest 계산
   string origin = ref + "$";
+  int length = origin.length();
   string double_origin = origin+origin;
 
-  vector<string> fillTheRest;
-  fillTheRest.push_back(origin);
-  for(int i = 1 ; i < length; i++) {
-    fillTheRest.push_back(double_origin.substr(length-i-1, length));
-  }
+  vector<pair<string, int>> fillTheRest;
+  
+  // fill the rest
   for(int i = 0 ; i < length; i++) {
-    bwt += fillTheRest[i][length-1];
+    fillTheRest.push_back(make_pair(double_origin.substr(length-(i+1), length), length-(i+1)));
+    // print for debugging
+    // cout << fillTheRest[i].second <<", " << fillTheRest[i].first << endl;
   }
-  sort(bwt.begin(), bwt.end());
+  // sort
+  sort(fillTheRest.begin(), fillTheRest.end());
+  // make bwt 
+  for(int i = 0 ; i < length; i++) {
+    bwt += (fillTheRest[i].first)[length-1];
+    // print for debugging
+    // cout << fillTheRest[i].second << ", " << fillTheRest[i].first << endl;
+  }
+  // print to debugging
+  //cout << bwt << endl;
 }
