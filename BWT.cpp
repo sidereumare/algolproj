@@ -1,11 +1,11 @@
 #include "BWT.h"
 
 void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos) {
-    // 갈아엎는중..
+    // fix error..
 }
 
 void BWT :: makeBWT(const string& ref){
-  // $ 추가 후 rest 계산
+  // add $ 
   string origin = ref + "$";
   int length = origin.length();
   string double_origin = origin+origin;
