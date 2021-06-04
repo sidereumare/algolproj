@@ -5,6 +5,7 @@
 #include "BoyerMoore.h"
 #include "Euiler.h"
 #include "Concat.h"
+#include "Benchmark.h"
 using namespace std;
 
 //최소 편집거리를 이용하여 성능 평가
@@ -32,7 +33,7 @@ int calcDifference(const string& org, const string& dif) {
 		}
 	}
 	int rst = arr[m - 1];
-	delete []arr;
+	delete[]arr;
 	return rst;
 }
 
@@ -42,7 +43,7 @@ int main() {
 	InputProc input;
 	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortReads.txt");
 	//이미 있는데 make호출시 shortreads.txt와 modifiedseq.txt, inputProc의 내용이 변경됨
-	input.makeRandomReads(500, 80, rng);
+	//input.makeRandomReads(500, 80, rng);
 
 
 	//1-1 첫번째과정
@@ -53,7 +54,17 @@ int main() {
 	bwt.Restore(input.ShortReads, input.ref, input.snipPos);
 	chrono::system_clock::time_point bwt_end = chrono::system_clock::now();
 
-	
+	//2-1
+	//euiler로 BWT로 만들어진 misRead를 처리하여 sequence를 복원
+	chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
+	Euiler bwt_euiler;
+	vector<string>* restored_mis;
+	restored_mis = bwt_euiler.Restore(bwt.misRead, bwt.misRead[0].length() / 3);
+	chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
+
+	//3-1 복원한 sequence를 1-1단계에서 복원한 sequence와 concat시킵니다.
+	string result = Concat::concat(bwt.restore, *restored_mis);
+
 	//1-2
 	//Boyer-Moore Algorithm 활용
 	chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
@@ -61,27 +72,29 @@ int main() {
 	bm.Restore(input.ShortReads, input.ref, input.snipPos);
 	chrono::system_clock::time_point boyer_end = chrono::system_clock::now();
 
-	
-	//2
-	//euiler로 misRead를 처리하여 sequence를 복원
-	chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
+	//2-2
+	//euiler로 Boyer-Moore 로 만들어진 misRead를 처리하여 sequence를 복원
+	chrono::system_clock::time_point euiler_start1 = chrono::system_clock::now();
 	Euiler bwt_euiler;
 	vector<string>* restored_mis;
-	restored_mis = bwt_euiler.Restore(bwt.misRead, bwt.misRead[0].length()/3);
-	chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
+	restored_mis = bwt_euiler.Restore(bwt.misRead, bwt.misRead[0].length() / 3);
+	chrono::system_clock::time_point euiler_end1 = chrono::system_clock::now();
+
+	//3-1 복원한 sequence를 1-1단계에서 복원한 sequence와 concat시킵니다.
+	string result1 = Concat::concat(bwt.restore, *restored_mis);
 
 
-	string restored;
-	//3 복원한 sequence를 1단계에서 복원한 sequence와 concat시킵니다.
-	string result = Concat::concat(restored, *restored_mis);
-	
+	//성능 벤치마크용
+	Benchmark bench;
+	bench.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
+
 
 	//vector<string> mis = { "00100", "10100"};
 	//chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
 	//Euiler bwt_euiler;
 	//bwt_euiler.Restore(mis, 4);
 	//chrono::system_clock::time_point boyer_end = chrono::system_clock::now();
-	
+
 	//성능평가
 	//cout<<calcDifference("abc", "acb");
 	return 0;
