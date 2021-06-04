@@ -40,6 +40,7 @@ int calcDifference(const string& org, const string& dif) {
 
 random_device rng;
 int main() {
+	/*
 	InputProc input;
 	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortReads.txt");
 	//이미 있는데 make호출시 shortreads.txt와 modifiedseq.txt, inputProc의 내용이 변경됨
@@ -97,5 +98,11 @@ int main() {
 
 	//성능평가
 	//cout<<calcDifference("abc", "acb");
+	*/
+
+	BWT bw;
+	string ref = "acaacg";
+	vector<int> snippos;
+	bw.Restore(vector<string>(), ref, snippos);
 	return 0;
 }
