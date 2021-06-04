@@ -1,7 +1,5 @@
 #include "Benchmark.h"
 
-#include "Benchmark.h"
-
 void Benchmark::RestoreBrute(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos) {
 	/* 벤치마크 알고리즘 - 기본적인 Brute Force Alogrithm */
 
