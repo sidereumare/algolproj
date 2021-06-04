@@ -1,8 +1,45 @@
 #include "BWT.h"
 
-int BWT::search(const string& target)
+int BWT::search(const string& target ,const vector<int>& snipPos)
 {
+    auto func = [&](const string& target, int start) {
+        int current = start;
+        for (int i = target.length() - 2; i > 0 ; i--) {
+            if (target[i] != bwt[current] && !binary_search(snipPos.begin(), snipPos.end(), originpos[current])) {
+                return false;
+            }
+            current = postofirst[current];
+        }
+        return true;
+    };
 
+    //탐색 범위 지정
+    int start = 0;
+    int end = 0;
+    int target_l = target.length() - 1;
+    if (target[target_l] == 'A') {
+        start = posstart[0];
+        end = posstart[1];
+    }
+    else if (target[target_l] == 'C') {
+        start = posstart[1];
+        end = posstart[2];
+    }
+    else if (target[target_l] == 'G') {
+        start = posstart[2];
+        end = posstart[3];
+    }
+    else{
+        start = posstart[3];
+        end = target_l + 1;
+    }
+    
+    
+    for (int i = start; i < end; i++) {
+        if (func(target, i)) {
+            return originpos[i] - target.length() + 1;
+        }
+    }
     return -1;
 }
 
@@ -15,8 +52,9 @@ void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vec
 
     for (const auto& l : ShortLeads) {
         int pos = -1;
-        pos = search(l);
+        pos = search(l, snipPos);
         if (pos == -1) {
+            misRead.push_back(l);
             continue;
         }
 
@@ -75,9 +113,27 @@ void BWT :: makeBWT(const string& ref){
             chcount[3]++;
         }
     }
+    for (int i = 0; i < length; i++) {
+        if (bwt[i] == 'A') {
+            postofirst[i] += posstart[0];
+        }
+        else if (bwt[i] == 'C') {
+            postofirst[i] += posstart[1];
+        }
+        else if (bwt[i] == 'G') {
+            postofirst[i] += posstart[2];
+        }
+        else {
+            postofirst[i] += posstart[3];
+        }
+    }
+
 
     char before = '$';
     int pos = 0;
+    for (int i = 0; i < 4; i++) {
+        posstart[i] = ref.length() + 1;
+    }
     for (int i = 1; i < length; i++) {
         if (before != first[i]) {
             posstart[pos++] = i;

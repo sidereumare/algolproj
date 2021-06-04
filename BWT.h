@@ -7,7 +7,7 @@
 using namespace std;
 class BWT
 {
-	int search(const string& target);
+	int search(const string& target, const vector<int>& snipPos);
 public:
 	vector<string> misRead;
 	string restore;

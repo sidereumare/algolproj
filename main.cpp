@@ -100,9 +100,11 @@ int main() {
 	//cout<<calcDifference("abc", "acb");
 	*/
 
+	//Å×½ºÆ®
 	BWT bw;
-	string ref = "acaacg";
+	string ref = "ACAACG";
 	vector<int> snippos;
-	bw.Restore(vector<string>(), ref, snippos);
+	vector<string> r = {"ACA","ACG","CAA","CCC"};
+	bw.Restore(r, ref, snippos);
 	return 0;
 }
