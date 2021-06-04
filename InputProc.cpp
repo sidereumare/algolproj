@@ -138,7 +138,7 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 	num = rng_num(rng);
 	for (int i = 0; i < num; i++) {
 		int pos = rng_pos(rng);
-		modify.erase(pos, pos + rng_size(rng));
+		modify.erase(pos, rng_size(rng));
 	}
 
 	modifiedSeq = modify;
