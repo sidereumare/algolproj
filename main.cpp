@@ -71,7 +71,13 @@ int main() {
 	//int rst = calcDifference(input.modifiedSeq, result);
 	//cout << rst << '\n';
 
-
+	
+	//BoyerMoore bm;
+	//vector<string> read = { "TTC","CAT", "CCC" };
+	//string ref = "ATCATA";
+	//bm.Restore(read, ref, {0});
+	//cout << bm.restore << "\n";
+	//cout << bm.misRead[0] << '\n';
 	//1-2
 	//Boyer-Moore Algorithm 활용
 	chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
@@ -92,6 +98,8 @@ int main() {
 	//3-2 복원한 sequence를 1-2단계에서 복원한 sequence와 concat시킵니다.
 	string result1 = Concat::concat(bm.restore, *restored_mis1);
 	
+	int rst = calcDifference(input.modifiedSeq, result1);
+	cout << rst << '\n';
 
 	//성능 벤치마크용
 	//Benchmark bench;

@@ -72,47 +72,47 @@ void BoyerMoore::Restore(const vector<string>& ShortLeads, const string& ref, co
 // 2. Boyer moore Horspool  알고리즘 이용하기
 // 기본 알고리즘에서 suffix가 같은 부분을 이용해 생략할 문자의 개수 찾는 부분을 없앰
 // short_read를 처음부터 끝까지 돌며 위치 찾아내기
-/*
-for(int i=0; i<n; i++){
-    int badchar[256]; // 256은 문자의 개수
+    /*
+    for(int i=0; i<n; i++){
+        int badchar[256]; // 256은 문자의 개수
 
-    // bad char 배열을 현재 short_read에 맞게 채운다.
-    badCharHeuristic(ShortLeads[i], k, badchar);
+        // bad char 배열을 현재 short_read에 맞게 채운다.
+        badCharHeuristic(ShortLeads[i], k, badchar);
 
-    int s = 0; // s는 현재 shortread가 가리키는 ref에서의 위치
-    while(s<=(m-k)){
-        int j = k-1;
-        int missNum = 0; // 대입 비교하며 찾은 missmatch 개수
+        int s = 0; // s는 현재 shortread가 가리키는 ref에서의 위치
+        while(s<=(m-k)){
+            int j = k-1;
+            int missNum = 0; // 대입 비교하며 찾은 missmatch 개수
 
-        // 패턴에서 현재 가리키는 문자와 레퍼런스에서 현재 가리키는 문자가 같다면 계속 j를 shortread의 마지막에서부터 줄여간다.
-        // 오->왼 순으로 비교해 나간다.
-        while(j>=0){
-            if(ShortLeads[i][j] == ref[s+j]){ // shortread와 ref가 가리키는 문자가 같을 경우
-                j--;
-            }else{ // missMatch가 생기면 그만두기
-                break;
+            // 패턴에서 현재 가리키는 문자와 레퍼런스에서 현재 가리키는 문자가 같다면 계속 j를 shortread의 마지막에서부터 줄여간다.
+            // 오->왼 순으로 비교해 나간다.
+            while(j>=0){
+                if(ShortLeads[i][j] == ref[s+j] || binary_search(snipPos.begin(), snipPos.end(), s+j)){ // shortread와 ref가 가리키는 문자가 같을 경우
+                    j--;
+                }else{ // missMatch가 생기면 그만두기
+                    break;
+                }
             }
-        }
 
-        // 패턴이 현재 위치에 존재하는 것이 확인되었다면, j는 -1일 것이다.
-        if(j<0){
-            // 그러면 복원을 진행한다.
-            for(int z=0; z<m; z++){
-                restore[s+z] = ShortLeads[i][z];
+            // 패턴이 현재 위치에 존재하는 것이 확인되었다면, j는 -1일 것이다.
+            if(j<0){
+                // 그러면 복원을 진행한다.
+                for(int z=0; z<k; z++){
+                    restore[s+z] = ShortLeads[i][z];
+                }
+                break; // 다음 short_read로 넘어간다.
+            }else{
+                // 패턴이 현재 위치에 있지 않다면 다른 위치에서 패턴을 찾아야 한다.
+                // 옆으로 얼마나 옮길지는 badchar에 저장된 값을 기준으로 설정한다.
+                s += max(1, j-badchar[ref[s+j]]);
             }
-            break; // 다음 short_read로 넘어간다.
-        }else{
-            // 패턴이 현재 위치에 있지 않다면 다른 위치에서 패턴을 찾아야 한다.
-            // 옆으로 얼마나 옮길지는 badchar에 저장된 값을 기준으로 설정한다.
-            s += max(1, j-badchar[ref[s+j]]);
-        }
 
+        }
+        if(s >= m-k){
+            misRead.push_back(ShortLeads[i]);
+        }
     }
-    if(s >= m-k){
-        misRead.push_back(ShortLeads[i]);
-    }
-}
-*/
+    */
 
 
 
@@ -207,12 +207,12 @@ for(int i=0; i<n; i++){
             int j = k - 1;
             int missNum = 0; // 대입 비교하며 찾은 missmatch 개수
 
-            c = ref[s + m - 1];
+            c = ref[s + k - 1];
 
             // Raita에서는 처음문자 중간문자 끝 문자가 같은지 먼저 비교한다.
-            if (lastCh == c) {
-                if (middleCh == ref[s + m / 2]) {
-                    if (firstCh == ref[s]) {
+            if (lastCh == c || binary_search(snipPos.begin(), snipPos.end(), s + k -1)) {
+                if (middleCh == ref[s + k / 2] || binary_search(snipPos.begin(), snipPos.end(), s + k / 2)) {
+                    if (firstCh == ref[s] || binary_search(snipPos.begin(), snipPos.end(), s)) {
 
                         // 패턴에서 현재 가리키는 문자와 레퍼런스에서 현재 가리키는 문자가 같다면 계속 j를 shortread의 마지막에서부터 줄여간다.
                         // 오->왼 순으로 비교해 나간다.
@@ -221,7 +221,7 @@ for(int i=0; i<n; i++){
                                 j--;
                                 continue;
                             }
-                            if (ShortLeads[i][j] == ref[s + j]) { // shortread와 ref가 가리키는 문자가 같을 경우
+                            if (ShortLeads[i][j] == ref[s + j] || binary_search(snipPos.begin(), snipPos.end(), s + j)) { // shortread와 ref가 가리키는 문자가 같을 경우, snip인 경우
                                 j--;
                             }
                             else { // missMatch 가 발생하면 그만두기
@@ -232,7 +232,7 @@ for(int i=0; i<n; i++){
                         // 패턴이 현재 위치에 존재하는 것이 확인되었다면, j는 -1일 것이다.
                         if (j < 0) {
                             // 그러면 복원을 진행한다.
-                            for (int z = 0; z < m; z++) {
+                            for (int z = 0; z < k; z++) {
                                 restore[s + z] = ShortLeads[i][z];
                             }
                             break; // 다음 short_read로 넘어간다.
@@ -252,7 +252,7 @@ for(int i=0; i<n; i++){
             misRead.push_back(ShortLeads[i]);
         }
     }
-
+    
 
 
 
