@@ -53,7 +53,7 @@ void Concat::analyze(const vector<string>& mis)
 							break;
 						}
 						else {
-							j++;
+							m_p++;
 						}
 					}
 					n_p++;
