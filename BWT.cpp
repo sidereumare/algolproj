@@ -80,21 +80,21 @@ void BWT :: makeBWT(const string& ref){
     int length = origin.length();
     string double_origin = origin+origin;
 
-    vector<pair<string, int>> fillTheRest;
+    vector<pair<string, int>> *fillTheRest = new vector<pair<string, int>>();
   
     // fill the rest
     for(int i = 0 ; i < length; i++) {
-        fillTheRest.push_back(make_pair(double_origin.substr(length-(i+1), length), length-(i+1)));
+        fillTheRest->push_back(make_pair(double_origin.substr(length-(i+1), length), length-(i+1)));
     // print for debugging
     // cout << fillTheRest[i].second <<", " << fillTheRest[i].first << endl;
     }
     // sort
-    sort(fillTheRest.begin(), fillTheRest.end());
+    sort(fillTheRest->begin(), fillTheRest->end());
     // make bwt& first
     for(int i = 0 ; i < length; i++) {
-        bwt += (fillTheRest[i].first)[length-1];
-        first += (fillTheRest[i].first)[0];
-        originpos.push_back(fillTheRest[i].second);
+        bwt += ((*fillTheRest)[i].first)[length-1];
+        first += ((*fillTheRest)[i].first)[0];
+        originpos.push_back((*fillTheRest)[i].second);
     }
 
     int chcount[4] = { 0,0,0,0 };//상대위치 검색용, 각각 ACGT
