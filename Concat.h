@@ -4,7 +4,7 @@
 using namespace std;
 class Concat
 {
-	static void replace(string& org, int start, int end, const string& dst);
+	static vector<int>* ComputeSp(const string& Pattern);
 public:
 	static string concat(const string &res, const vector<string>& mis);
 };

@@ -120,19 +120,19 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 		reverse(modify.begin() + pos, modify.begin() + pos + rng_size(rng));
 	}
 
-	//insertion
-	char ch[4] = { 'A', 'T', 'C', 'G' };
-	uniform_int_distribution<int> rand_gene(0, 3);
-	num = rng_num(rng);
-	for (int i = 0; i < num; i++) {
-		string insert_seq = "";
-		int make_size = rng_size(rng);
-		for (int i = 0; i < make_size; i++) {
-			insert_seq.push_back(ch[rand_gene(rng)]);
-		}
-		int pos = rng_pos(rng);
-		modify.insert(pos, insert_seq);
-	}
+	////insertion
+	//char ch[4] = { 'A', 'T', 'C', 'G' };
+	//uniform_int_distribution<int> rand_gene(0, 3);
+	//num = rng_num(rng);
+	//for (int i = 0; i < num; i++) {
+	//	string insert_seq = "";
+	//	int make_size = rng_size(rng);
+	//	for (int i = 0; i < make_size; i++) {
+	//		insert_seq.push_back(ch[rand_gene(rng)]);
+	//	}
+	//	int pos = rng_pos(rng);
+	//	modify.insert(pos, insert_seq);
+	//}
 
 	//deletion
 	num = rng_num(rng);

@@ -5,6 +5,9 @@ int BWT::search(const string& target ,const vector<int>& snipPos)
     auto func = [&](const string& target, int start) {
         int current = start;
         for (int i = target.length() - 2; i > 0 ; i--) {
+            if (bwt[current] == '$') {
+                return false;
+            }
             if (target[i] != bwt[current] && !binary_search(snipPos.begin(), snipPos.end(), originpos[current])) {
                 return false;
             }

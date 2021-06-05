@@ -3,6 +3,7 @@
 #*.vcxproj.filters
 #*.vcxproj.user
 Debug/
+Release/
 x64/
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,c++
