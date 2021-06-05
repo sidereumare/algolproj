@@ -41,11 +41,12 @@ int calcDifference(const string& org, const string& dif) {
 random_device rng;
 int main() {
 	
+	//30000000
 	InputProc input;
 	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortRead.txt");
 	//이미 있는데 make호출시 shortreads.txt와 modifiedseq.txt, inputProc의 내용이 변경됨
-	//input.makeRandomReads(100000, 500, rng);
-
+	input.makeRandomReads(1000000, 100, rng);
+	cout << "데이터 생성완료" << '\n';
 
 	////1-1 첫번째과정
 	////BWT알고리즘 활용
@@ -78,12 +79,14 @@ int main() {
 	//bm.Restore(read, ref, {0});
 	//cout << bm.restore << "\n";
 	//cout << bm.misRead[0] << '\n';
+	// 
 	//1-2
 	//Boyer-Moore Algorithm 활용
 	chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
 	BoyerMoore bm;
 	bm.Restore(input.ShortReads, input.ref, input.snipPos);
 	chrono::system_clock::time_point boyer_end = chrono::system_clock::now();
+	cout << "Boyer-Moore완료\n";
 	cout << chrono::duration<double>(boyer_end - boyer_start).count() << '\n';
 
 	//2-2
@@ -91,15 +94,25 @@ int main() {
 	chrono::system_clock::time_point euiler_start1 = chrono::system_clock::now();
 	Euiler bm_euiler;
 	vector<string>* restored_mis1;
-	restored_mis1 = bm_euiler.Restore(bm.misRead, 61);
+	restored_mis1 = bm_euiler.Restore(bm.misRead, 71);
 	chrono::system_clock::time_point euiler_end1 = chrono::system_clock::now();
+	cout << "Euiler완료\n";
 	cout << chrono::duration<double>(euiler_end1 - euiler_start1).count() << '\n';
 
 	//3-2 복원한 sequence를 1-2단계에서 복원한 sequence와 concat시킵니다.
-	string result1 = Concat::concat(bm.restore, *restored_mis1);
+	Concat con;
+	string result1 = con.concat(bm.restore, *restored_mis1);
+
 	
 	int rst = calcDifference(input.modifiedSeq, result1);
 	cout << rst << '\n';
+
+	ofstream fout("reconstructed.txt");
+	fout << result1;
+	fout.close();
+
+
+
 
 	//성능 벤치마크용
 	//Benchmark bench;

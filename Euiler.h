@@ -6,6 +6,8 @@
 #include <cassert>
 #include <map>
 #include <stack>
+#include <thread>
+#include <mutex>
 
 using namespace std;
 class Euiler
@@ -21,6 +23,8 @@ class Euiler
 
 	//오일러 그래프를 통해 복원한 문자열들
 	vector<string> EuilerRst;
+	
+	mutex _mux;
 
 	int findgraph(string find);
 	void makegraph(const vector<string>& misRead, int l);

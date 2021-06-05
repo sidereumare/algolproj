@@ -84,17 +84,18 @@ void Euiler::makepath(int current, vector<int> &st, vector<vector<int> > &ans)
 			c.second.second = false;
 			//다음 노드 방문
 			makepath(c.first, st, ans);
-			//방문체크를 true로 변경
-			c.second.second = true;
 
 			//마지막 노드가 아니라고 체크
 			chk = false;
+			break;
 		}
 	}
 
 	//마지막노드에서 경로 저장
 	if (chk) {
+		_mux.lock();
 		ans.push_back(st);
+		_mux.unlock();
 	}
 	//스텍에서 제거
 	st.pop_back();
@@ -117,10 +118,19 @@ vector<string>* Euiler::Restore(const vector<string>& misRead, int l)
 	}
 
 	vector<vector<int> > ans;
-	vector<int> st;
-	for (int i = 0; i < startNodes.size(); i++) {
-		st.clear();
-		makepath(startNodes[i], st, ans);
+	auto func = [this, &startNodes, &ans](int start) {
+		for (int i = start; i < startNodes.size(); i+=10) {
+			vector<int> st;
+			makepath(startNodes[i], st, ans);
+		}
+	};
+
+	vector<thread> t;
+	for (int i = 0; i < 10; i++) {
+		t.push_back(thread(func, i));
+	}
+	for (auto& e : t) {
+		e.join();
 	}
 
 	vector<string>* res = new vector<string>();

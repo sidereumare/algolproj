@@ -3,13 +3,18 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <thread>
+#include <mutex>
 using namespace std;
+
+
 class BoyerMoore
 {
 
 public:
 	vector<string> misRead;
 	string restore;
+	mutex _mutex;
 
 	//BoyerMoore를 이용하여 복원시도, mismatch발생시 misRead로 저장
 	void Restore(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos);
