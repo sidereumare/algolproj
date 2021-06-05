@@ -123,13 +123,25 @@ string Concat::concat(const string& res, vector<string>& mis)
 
 	result = mis[match_data[before + 1].second];
 	for (int i = before + 2; i < match_data.size(); i++) {
-		if ((match_data[i - 1].first.end() - 1)->first == (match_data[i].first.begin())->first) {
-			auto it = match_data[i - 1].first.end() - 1;
-			int pos = mis[match_data[i - 1].second].size() - it->second;
+		auto it1 = match_data[i - 1].first.end() - 1;
+		auto it2 = match_data[i].first.begin();
+		//일반적인 경우
+		if (it1->first == it2->first) {
+			int pos = mis[match_data[i - 1].second].size() - it1->second;
 			result.replace(pos, result.size() - pos, mis[match_data[i].second]);
 		}
-		else {
+		//중간에 값이 등장하지 않는 경우
+		else if (it1->first < it2->first) {
+			for (int j = it1->first + 1; j < it2->first; j++) {
+				result += res_[j];
+			}
 			result += mis[match_data[i].second];
+		}
+		//서로 많이 겹치는 경우
+		else {
+			while (it1->first != it2->first) { it1--; }
+			int pos = mis[match_data[i - 1].second].size() - it1->second;
+			result.replace(pos, result.size() - pos, mis[match_data[i].second]);
 		}
 	}
 
