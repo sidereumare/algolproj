@@ -7,7 +7,7 @@ vector<int>* Concat::ComputeSp(const string& Pattern) {
 	int j = 0;
 	for (int i = 1; i < Pattern.length(); i++) {
 		while (j > 0 && Pattern[j] != Pattern[i]) j = sp->at(j - 1);
-		if (Pattern[i] == Pattern[j]){
+		if (Pattern[i] == Pattern[j]) {
 			j++;
 			sp->at(i) = j;
 		}
@@ -26,7 +26,7 @@ void Concat::analyze(const vector<string>& mis)
 	//겹치는 부분 검색후 표시
 
 	auto func = [this, &mis](int start) {
-		for (int i = start; i < mis.size(); i+=10) {
+		for (int i = start; i < mis.size(); i += 10) {
 			match_data[i].second = i;
 
 			//종류, 시작 위치
@@ -46,7 +46,7 @@ void Concat::analyze(const vector<string>& mis)
 						m_p = (*res_sp[j])[m_p - 1];
 					}
 					if (mis[i][n_p] == res_[j][m_p]) {
-						if (j == res_[j].size() - 1) {
+						if (m_p == res_[j].size() - 1) {
 							pos.first = j;
 							pos.second = n_p - res_[j].size() + 1;
 							found = true;
@@ -84,8 +84,8 @@ void Concat::analyze(const vector<string>& mis)
 string Concat::concat(const string& res, vector<string>& mis)
 {
 	//res: mis리드들을 제외한 복원된 결과, mis: mis리드들을 연결한 결과
-	
-	
+
+
 	//res분해
 	int i = 0;
 	string s = "";
@@ -102,17 +102,28 @@ string Concat::concat(const string& res, vector<string>& mis)
 			i++;
 		}
 	}
-	
+
 	analyze(mis);
-	
+
 	//matchdata정보 정렬
 	sort(match_data.begin(), match_data.end());
 
 	//정렬된 정보를 이용해 reconstruct
 	string result;
-	result = mis[match_data[0].second];
-	for (int i = 1; i < match_data.size(); i++) {
-		if ((match_data[i - 1].first.end() - 1)->first == (match_data[i - 1].first.begin())->first) {
+
+	int before = 0;
+	for (int i = 0; i < match_data.size(); i++) {
+		if (match_data[i].first.empty()) {
+			before = i;
+		}
+		else {
+			break;
+		}
+	}
+
+	result = mis[match_data[before + 1].second];
+	for (int i = before + 2; i < match_data.size(); i++) {
+		if ((match_data[i - 1].first.end() - 1)->first == (match_data[i].first.begin())->first) {
 			auto it = match_data[i - 1].first.end() - 1;
 			int pos = mis[match_data[i - 1].second].size() - it->second;
 			result.replace(pos, result.size() - pos, mis[match_data[i].second]);
