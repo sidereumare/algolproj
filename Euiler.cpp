@@ -28,28 +28,33 @@ void Euiler::makegraph(const vector<string>& misRead, int l)
 
 	//그래프 만들기
 	//모든 read들을 lmer로 분할
+	int dict_cnt = 0;
 	for (auto s : misRead) {
 		for (int i = 0; i < readLength - l; i++) {
 			string sub1, sub2;
 			sub1 = s.substr(i, l);
 			sub2 = s.substr(i + 1, l);
-			int s1, s2;
+			//int s1, s2;
 			//첫번째 substr의 위치 찾기
-			s1 = findgraph(sub1);
-			if (s1 == -1) {
+			//s1 = findgraph(sub1);
+			auto s1 = dict_.find(sub1);
+			if (s1 == dict_.end()) {
 				dict.push_back(sub1);
+				s1 = dict_.insert(make_pair(sub1, dict_cnt++)).first;
 				graph.push_back(map <int, pair<int, bool> >());
-				s1 = dict.size() - 1;
+				//s1 = dict.size() - 1;
 			}
 			//두번째 substr의 위치 찾기
-			s2 = findgraph(sub2);
-			if (s2 == -1) {
+			//s2 = findgraph(sub2);
+			auto s2 = dict_.find(sub2);
+			if (s2 == dict_.end()) {
 				dict.push_back(sub2);
+				s2 = dict_.insert(make_pair(sub2, dict_cnt++)).first;
 				graph.push_back(map<int, pair<int, bool> >());
-				s2 = dict.size() - 1;
+				//s2 = dict.size() - 1;
 			}
 			//s1->s2로 가는 경로 지정
-			auto ret = graph[s1].insert( make_pair(s2, make_pair(1, true)) );
+			auto ret = graph[s1->second].insert( make_pair(s2->second, make_pair(1, true)) );
 			if (!ret.second) {
 				ret.first->second.first++;
 			}
