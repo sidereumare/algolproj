@@ -186,10 +186,9 @@ for(int i=0; i<n; i++){
 
 
  // 4. 기본 boyer moore알고리즘에 Raita 알고리즘 적용하기
-
+    int* skip_tb = new int[m + 1]; // 몇개 건너 뛸 수 있는지 알려주는 테이블
     for (int i = 0; i < n; i++) {
         int badchar[256]; // 256은 문자의 개수
-        int *skip_tb = new int[m + 1]; // 몇개 건너 뛸 수 있는지 알려주는 테이블
 
         // bad char 배열을 현재 short_read에 맞게 채운다.
         badCharHeuristic(ShortLeads[i], k, badchar);
@@ -255,7 +254,7 @@ for(int i=0; i<n; i++){
     
 
 
-
+    delete[] skip_tb;
 
 
 

@@ -132,6 +132,7 @@ vector<string>* Euiler::Restore(const vector<string>& misRead, int l)
 		for (int j = 1; j < ans[i].size(); j++) {
 			str.push_back(dict[ans[i][j]][dict[ans[i][j]].length() - 1]);
 		}
+		res->push_back(str);
 	}
 
 	return res;

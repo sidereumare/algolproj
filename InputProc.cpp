@@ -33,15 +33,18 @@ void InputProc::getfile(const string refFile, const string snipFile, const strin
 	vector<int> snipProcessed;
 	pn.reserve(60000000);
 	snipProcessed.reserve(300000);
+	//N의 갯수
 	int cnt = 0;
 	int j = 0;
 	for (int i = 0; i < ref.size(); i++) {
 		if (ref[i] != 'N') {
 			pn.push_back(ref[i]);
+			//스닙 처리
 			if (j < snipPos.size() && snipPos[j] == i) {				
 				snipProcessed.push_back(i - cnt);
 				j++;
-				while (snipPos[j] == snipPos[j + 1])j++;
+				//중복될 경우 j++
+				while (j < snipPos.size() - 1 && snipPos[j] == snipPos[j + 1])j++;
 			}
 		}
 		else {

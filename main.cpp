@@ -44,7 +44,7 @@ int main() {
 	InputProc input;
 	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortRead.txt");
 	//이미 있는데 make호출시 shortreads.txt와 modifiedseq.txt, inputProc의 내용이 변경됨
-	//input.makeRandomReads(1000000, 500, rng);
+	//input.makeRandomReads(100000, 500, rng);
 
 
 	////1-1 첫번째과정
