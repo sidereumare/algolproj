@@ -147,7 +147,9 @@ string Concat::concat(const string& res, vector<string>& mis)
 		}
 		//서로 많이 겹치는 경우
 		else {
-			while (it1->first != it2->first) { it1--; }
+			while (it1->first != it2->first && it1 != match_data[i - 1].first.begin()) {
+				it1--;
+			}
 			int pos = mis[match_data[i - 1].second].size() - it1->second;
 			result.replace(pos, result.size() - pos, mis[match_data[i].second]);
 		}
