@@ -48,7 +48,11 @@ int main() {
 	//cout << input.ref.size();
 	//return 0;
 	//이미 있는데 make호출시 shortreads.txt와 modifiedseq.txt, inputProc의 내용이 변경됨
-	input.makeRandomReads(3000, 200, rng);
+	cout << "사용할 레퍼런스의 길이를 입력해 주세요\n";
+	int ref_len;
+	cin >> ref_len;
+	input.ref = input.ref.substr(0, ref_len);
+	input.makeRandomReads(ref_len/2, 100, rng);
 	cout << "데이터 생성완료" << '\n';
 
 	//1-1 첫번째과정

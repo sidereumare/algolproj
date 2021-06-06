@@ -108,13 +108,14 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 		}
 	}
 
-	
+	int m_cnt = ((double)ref.length() * 0.0037) / 3 / 40;
+
 	//변이 크기
-	uniform_int_distribution<int> rng_size(10, 30);
+	uniform_int_distribution<int> rng_size(30, 50);
 	//변이 위치
-	uniform_int_distribution<int> rng_pos(1000, ref.length() - 3000);
+	uniform_int_distribution<int> rng_pos(1000, ref.length() - 2000);
 	//변이 갯수
-	uniform_int_distribution<int> rng_num(60, 90);
+	uniform_int_distribution<int> rng_num(m_cnt - 10, m_cnt + 10);
 
 	//reverse
 	int num = rng_num(rng);
