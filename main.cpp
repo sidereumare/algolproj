@@ -128,21 +128,36 @@ int main() {
 	//cout << rst << '\n';
 
 	
+	//성능 벤치마크용	
+	Benchmark bench;
+	//벤치마크 시작
+	chrono::system_clock::time_point bench_start = chrono::system_clock::now();
+	bench.RestoreKMP(input.ShortReads, input.ref, input.snipPos);
+	chrono::system_clock::time_point bench_end = chrono::system_clock::now();
+	cout << "bench종료\n";
+	cout << chrono::duration<double>(bench_end - bench_start).count() << '\n';
+	fout.open("benchmarkreconstructed.txt");
+	fout << result1;
+	fout.close();
+
+
+	Benchmark bench1;
+	cout << "benchmark 시작\n";
+	chrono::system_clock::time_point bench_start1 = chrono::system_clock::now();
+	bench1.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
+	chrono::system_clock::time_point bench_end1 = chrono::system_clock::now();
+	cout << "Construct완료\n";
+	cout << chrono::duration<double>(bench_end1 - bench_start1).count() << '\n';
+	ofstream fout("benchmarkreconstructed.txt");
+	fout << bench1.restore;
+	fout.close();
 
 
 
 
-	//성능 벤치마크용
-	//Benchmark bench;
-	//cout << "benchmark 시작\n";
-	//chrono::system_clock::time_point bench_start = chrono::system_clock::now();
-	//bench.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
-	//chrono::system_clock::time_point bench_end = chrono::system_clock::now();
-	//cout << "Construct완료\n";
-	//cout << chrono::duration<double>(bench_end - bench_start).count() << '\n';
-	//ofstream fout("benchmarkreconstructed.txt");
-	//fout << bench.restore;
-	//fout.close();
+
+
+
 
 	//vector<string> mis = { "00100", "10100"};
 	//chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
