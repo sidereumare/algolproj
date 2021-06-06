@@ -42,7 +42,6 @@ using namespace std;
 random_device rng;
 int main() {
 	
-
 	//30000000
 	InputProc input;
 	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortRead.txt");
@@ -64,13 +63,13 @@ int main() {
 	//chrono::system_clock::time_point bwt_end = chrono::system_clock::now();
 	cout << "BWT완료\n";
 	//cout << chrono::duration<double>(bwt_end - bwt_start).count() << '\n';
-
+	
 	//2-1
 	//euiler로 BWT로 만들어진 misRead를 처리하여 sequence를 복원
 	//chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
 	Euiler bwt_euiler;
 	vector<string>* restored_mis;
-	restored_mis = bwt_euiler.Restore(bwt.misRead, 61);
+	restored_mis = bwt_euiler.Restore(bwt.misRead, 71);
 	//chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
 	cout << "euiler완료\n";
 	//cout << chrono::duration<double>(euiler_end - euiler_start).count() << '\n';

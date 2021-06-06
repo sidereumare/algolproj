@@ -89,7 +89,11 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 	uniform_int_distribution<int> rngm(0, 1);
 	string modify = ref;
 	//일반적인 변이 추가
+	
 	for (auto& i : snipPos) {
+		if (i >= modify.length()) {
+			break;
+		}
 		if (rngm(rng) == 1) {
 			//reference dna와 차이를 만들기위해
 			//A와 T를 서로 바꾸고, C와 G를 서로 바꿉니다.

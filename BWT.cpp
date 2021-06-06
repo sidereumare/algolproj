@@ -14,9 +14,9 @@ int BWT::search(const string& target ,const vector<int>& snipPos)
             }
             //두개 다르면 종료
             else if(target[i] != bwt[current]) {
-                if (!binary_search(snipPos.begin(), snipPos.end(), originpos[postofirst[current]])) {
+                //if (!binary_search(snipPos.begin(), snipPos.end(), originpos[postofirst[current]])) {
                     return false;
-                }
+                //}
             }
         }
         return true;
