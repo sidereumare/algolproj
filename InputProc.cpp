@@ -108,7 +108,7 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 		}
 	}
 
-	int m_cnt = ((double)ref.length() * 0.0037) / 3 / 40;
+	int m_cnt = ((double)ref.length() * 0.0037) / (double)3 / (double)40;
 
 	//변이 크기
 	uniform_int_distribution<int> rng_size(30, 50);
