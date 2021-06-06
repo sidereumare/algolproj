@@ -164,13 +164,13 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 	for (int i = 0; i < n; i++) {
 		//이미 생성한 위치에 또 생성하지 않도록 set에 원소 추가 불가능할때까지
 		//insert반복
-		pair<set<int>::iterator, bool> chk;
-		do {
-			chk = st.insert(rngi(rng));
-		} while (!chk.second);
+		//pair<set<int>::iterator, bool> chk;
+		//do {
+		//	chk = st.insert(rngi(rng));
+		//} while (!chk.second);
 
 		string s = "";
-		s = modify.substr(*chk.first, k);
+		s = modify.substr(rngi(rng), k);
 		
 		fout << s + '\n';
 		ShortReads.push_back(s);

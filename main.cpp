@@ -42,6 +42,7 @@ using namespace std;
 random_device rng;
 int main() {
 	
+
 	//30000000
 	InputProc input;
 	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortRead.txt");
@@ -59,29 +60,28 @@ int main() {
 	//BWT알고리즘 활용
 	chrono::system_clock::time_point bwt_start = chrono::system_clock::now();
 	BWT bwt;
-	bwt.makeBWT(input.ref);
 	bwt.Restore(input.ShortReads, input.ref, input.snipPos);
-	chrono::system_clock::time_point bwt_end = chrono::system_clock::now();
+	//chrono::system_clock::time_point bwt_end = chrono::system_clock::now();
 	cout << "BWT완료\n";
-	cout << chrono::duration<double>(bwt_end - bwt_start).count() << '\n';
+	//cout << chrono::duration<double>(bwt_end - bwt_start).count() << '\n';
 
 	//2-1
 	//euiler로 BWT로 만들어진 misRead를 처리하여 sequence를 복원
-	chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
+	//chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
 	Euiler bwt_euiler;
 	vector<string>* restored_mis;
 	restored_mis = bwt_euiler.Restore(bwt.misRead, 61);
-	chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
+	//chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
 	cout << "euiler완료\n";
-	cout << chrono::duration<double>(euiler_end - euiler_start).count() << '\n';
+	//cout << chrono::duration<double>(euiler_end - euiler_start).count() << '\n';
 
 	//3-1 복원한 sequence를 1-2단계에서 복원한 sequence와 concat시킵니다.
-	chrono::system_clock::time_point concat_start = chrono::system_clock::now();
+	//chrono::system_clock::time_point concat_start = chrono::system_clock::now();
 	Concat con;
 	string result = con.concat(bwt.restore, *restored_mis);
 	chrono::system_clock::time_point concat_end = chrono::system_clock::now();
 	cout << "Construct완료\n";
-	cout << chrono::duration<double>(concat_end - concat_start).count() << '\n';
+	cout << chrono::duration<double>(concat_end- bwt_start).count() << '\n';
 	
 	
 	ofstream fout("1-1reconstructed.txt");
@@ -98,27 +98,27 @@ int main() {
 	chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
 	BoyerMoore bm;
 	bm.Restore(input.ShortReads, input.ref, input.snipPos);
-	chrono::system_clock::time_point boyer_end = chrono::system_clock::now();
+	//chrono::system_clock::time_point boyer_end = chrono::system_clock::now();
 	cout << "Boyer-Moore완료\n";
-	cout << chrono::duration<double>(boyer_end - boyer_start).count() << '\n';
+	//cout << chrono::duration<double>(boyer_end - boyer_start).count() << '\n';
 
 	//2-2
 	//euiler로 Boyer-Moore 로 만들어진 misRead를 처리하여 sequence를 복원
-	chrono::system_clock::time_point euiler_start1 = chrono::system_clock::now();
+	//chrono::system_clock::time_point euiler_start1 = chrono::system_clock::now();
 	Euiler bm_euiler;
 	vector<string>* restored_mis1;
 	restored_mis1 = bm_euiler.Restore(bm.misRead, 71);
-	chrono::system_clock::time_point euiler_end1 = chrono::system_clock::now();
+	//chrono::system_clock::time_point euiler_end1 = chrono::system_clock::now();
 	cout << "Euiler완료\n";
-	cout << chrono::duration<double>(euiler_end1 - euiler_start1).count() << '\n';
+	//cout << chrono::duration<double>(euiler_end1 - euiler_start1).count() << '\n';
 
 	//3-2 복원한 sequence를 1-2단계에서 복원한 sequence와 concat시킵니다.
-	chrono::system_clock::time_point concat_start1 = chrono::system_clock::now();
+	//chrono::system_clock::time_point concat_start1 = chrono::system_clock::now();
 	Concat con1;
 	string result1 = con1.concat(bm.restore, *restored_mis1);
 	chrono::system_clock::time_point concat_end1 = chrono::system_clock::now();
 	cout << "Construct완료\n";
-	cout << chrono::duration<double>(concat_end1 - concat_start1).count() << '\n';
+	cout << chrono::duration<double>(concat_end1-boyer_start).count() << '\n';
 
 	fout.open("1-2reconstructed.txt");
 	fout << result1;
@@ -134,24 +134,24 @@ int main() {
 	chrono::system_clock::time_point bench_start = chrono::system_clock::now();
 	bench.RestoreKMP(input.ShortReads, input.ref, input.snipPos);
 	chrono::system_clock::time_point bench_end = chrono::system_clock::now();
-	cout << "bench종료\n";
+	cout << "kmp종료\n";
 	cout << chrono::duration<double>(bench_end - bench_start).count() << '\n';
-	fout.open("benchmarkreconstructed.txt");
+	fout.open("kmpreconstructed.txt");
 	fout << result1;
 	fout.close();
 
-	/*
+	
 	Benchmark bench1;
-	cout << "benchmark 시작\n";
+	cout << "bruteforce 시작\n";
 	chrono::system_clock::time_point bench_start1 = chrono::system_clock::now();
 	bench1.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
 	chrono::system_clock::time_point bench_end1 = chrono::system_clock::now();
-	cout << "Construct완료\n";
+	cout << "bruteforce완료\n";
 	cout << chrono::duration<double>(bench_end1 - bench_start1).count() << '\n';
-	ofstream fout("benchmarkreconstructed.txt");
+	fout.open("brutereconstructed.txt");
 	fout << bench1.restore;
 	fout.close();
-	*/
+	
 
 
 

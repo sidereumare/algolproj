@@ -8,6 +8,7 @@
 using namespace std;
 class BWT
 {
+	void makeBWT(const string& ref);
 	mutex _mux;
 	int search(const string& target, const vector<int>& snipPos);
 public:
@@ -24,6 +25,5 @@ public:
 
 	//BWT를 이용하여 복원시도, mismatch발생시 misRead로 저장
 	void Restore(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos);
-	void makeBWT(const string& ref);
 };
 

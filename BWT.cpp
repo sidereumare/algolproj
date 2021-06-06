@@ -4,14 +4,20 @@ int BWT::search(const string& target ,const vector<int>& snipPos)
 {
     auto func = [&](const string& target, int start) {
         int current = start;
-        for (int i = target.length() - 2; i > 0 ; i--) {
+        for (int i = target.length() - 2; i >= 0 ; i--) {
             if (bwt[current] == '$') {
                 return false;
             }
-            if (target[i] != bwt[current] && !binary_search(snipPos.begin(), snipPos.end(), originpos[current])) {
-                return false;
+            //두개 같거나 스닙 위치면
+            if (target[i] == bwt[current]) {
+                current = postofirst[current];
             }
-            current = postofirst[current];
+            //두개 다르면 종료
+            else if(target[i] != bwt[current]) {
+                if (!binary_search(snipPos.begin(), snipPos.end(), originpos[postofirst[current]])) {
+                    return false;
+                }
+            }
         }
         return true;
     };
@@ -56,8 +62,11 @@ void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vec
 
 
     auto func = [this, &ShortLeads, &snipPos](int start) {
+        //모든 shortlead체크
         for (int i = start; i < ShortLeads.size(); i += 10) {
+            //search에서 못찻으면 -1
             int pos = -1;
+            //탐색
             pos = search(ShortLeads[i], snipPos);
             if (pos == -1) {
                 _mux.lock();
@@ -103,6 +112,7 @@ void BWT :: makeBWT(const string& ref){
     for(int i = 0 ; i < length; i++) {
         bwt += ((*fillTheRest)[i].first)[length-1];
         first += ((*fillTheRest)[i].first)[0];
+        //current의 원래 위치
         originpos.push_back((*fillTheRest)[i].second);
     }
 
@@ -113,30 +123,33 @@ void BWT :: makeBWT(const string& ref){
             chcount[0]++;
         }
         else if (bwt[i] == 'C') {
-            postofirst.push_back(chcount[0]);
+            postofirst.push_back(chcount[1]);
             chcount[1]++;
         }
         else if (bwt[i] == 'G') {
-            postofirst.push_back(chcount[0]);
+            postofirst.push_back(chcount[2]);
             chcount[2]++;
         }
-        else {
-            postofirst.push_back(chcount[0]);
+        else if (bwt[i] =='T') {
+            postofirst.push_back(chcount[3]);
             chcount[3]++;
+        }
+        else {
+            postofirst.push_back(-1);
         }
     }
     for (int i = 0; i < length; i++) {
         if (bwt[i] == 'A') {
-            postofirst[i] += posstart[0];
+            postofirst[i] += 1;
         }
         else if (bwt[i] == 'C') {
-            postofirst[i] += posstart[1];
+            postofirst[i] += chcount[0]+1;
         }
         else if (bwt[i] == 'G') {
-            postofirst[i] += posstart[2];
+            postofirst[i] += chcount[1]+chcount[0]+1;
         }
-        else {
-            postofirst[i] += posstart[3];
+        else if(bwt[i]=='T'){
+            postofirst[i] += chcount[2]+ chcount[1] + chcount[0]+1;
         }
     }
 
