@@ -6,36 +6,37 @@
 #include "Euiler.h"
 #include "Concat.h"
 #include "Benchmark.h"
+
 using namespace std;
 
 //최소 편집거리를 이용하여 성능 평가
 //시간복잡도 O(mn), 공간복잡도 O(m)
-int calcDifference(const string& org, const string& dif) {
-	int m = org.length() + 1;
-	int n = dif.length() + 1;
-
-	int* arr = new int[m];
-	for (int i = 0; i < m; i++) {
-		arr[i] = i;
-	}
-
-	for (int i = 1; i < n; i++) {
-		int before = arr[0];
-		arr[0] = i;
-		for (int j = 1; j < m; j++) {
-			int cost = 0;
-			if (org[j - 1] != dif[i - 1]) {
-				cost = 1;
-			}
-			int temp = arr[j];
-			arr[j] = min(arr[j - 1] + 1, min(arr[j] + 1, before + cost));
-			before = temp;
-		}
-	}
-	int rst = arr[m - 1];
-	delete[]arr;
-	return rst;
-}
+//int calcDifference(const string& org, const string& dif) {
+//	int m = org.length() + 1;
+//	int n = dif.length() + 1;
+//
+//	int* arr = new int[m];
+//	for (int i = 0; i < m; i++) {
+//		arr[i] = i;
+//	}
+//
+//	for (int i = 1; i < n; i++) {
+//		int before = arr[0];
+//		arr[0] = i;
+//		for (int j = 1; j < m; j++) {
+//			int cost = 0;
+//			if (org[j - 1] != dif[i - 1]) {
+//				cost = 1;
+//			}
+//			int temp = arr[j];
+//			arr[j] = min(arr[j - 1] + 1, min(arr[j] + 1, before + cost));
+//			before = temp;
+//		}
+//	}
+//	int rst = arr[m - 1];
+//	delete[]arr;
+//	return rst;
+//}
 
 
 random_device rng;
@@ -100,24 +101,36 @@ int main() {
 	cout << chrono::duration<double>(euiler_end1 - euiler_start1).count() << '\n';
 
 	//3-2 복원한 sequence를 1-2단계에서 복원한 sequence와 concat시킵니다.
+	chrono::system_clock::time_point concat_start1 = chrono::system_clock::now();
 	Concat con;
 	string result1 = con.concat(bm.restore, *restored_mis1);
+	chrono::system_clock::time_point concat_end1 = chrono::system_clock::now();
+	cout << "Construct완료\n";
+	cout << chrono::duration<double>(concat_end1 - concat_start1).count() << '\n';
 
-	
-	int rst = calcDifference(input.modifiedSeq, result1);
-	cout << rst << '\n';
-
-	ofstream fout("reconstructed.txt");
+	ofstream fout("1-2reconstructed.txt");
 	fout << result1;
 	fout.close();
+
+	//int rst = calcDifference(input.modifiedSeq, result1);
+	//cout << rst << '\n';
+
+	
 
 
 
 
 	//성능 벤치마크용
-	//Benchmark bench;
-	//bench.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
-
+	Benchmark bench;
+	cout << "benchmark 시작\n";
+	chrono::system_clock::time_point bench_start = chrono::system_clock::now();
+	bench.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
+	chrono::system_clock::time_point bench_end = chrono::system_clock::now();
+	cout << "Construct완료\n";
+	cout << chrono::duration<double>(bench_end - bench_start).count() << '\n';
+	fout.open("benchmarkreconstructed.txt");
+	fout << bench.restore;
+	fout.close();
 
 	//vector<string> mis = { "00100", "10100"};
 	//chrono::system_clock::time_point boyer_start = chrono::system_clock::now();

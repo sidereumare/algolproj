@@ -109,9 +109,10 @@ string Concat::concat(const string& res, vector<string>& mis)
 	sort(match_data.begin(), match_data.end());
 
 	//정렬된 정보를 이용해 reconstruct
-	string result;
+	string result = "";
 
-	int before = 0;
+	int before = -1;
+	//없는 부분 띄어넘기
 	for (int i = 0; i < match_data.size(); i++) {
 		if (match_data[i].first.empty()) {
 			before = i;
@@ -121,7 +122,14 @@ string Concat::concat(const string& res, vector<string>& mis)
 		}
 	}
 
-	result = mis[match_data[before + 1].second];
+	//첫번째로 등장하는 수가 0이 아니면 그 수-1 까지 문자열 추가
+	int chk = match_data[before + 1].first.begin()->first;
+	for (int i = 0; i < chk; i++) {
+		result += res_[i];
+	}
+
+	//첫번째
+	result += mis[match_data[before + 1].second];
 	for (int i = before + 2; i < match_data.size(); i++) {
 		auto it1 = match_data[i - 1].first.end() - 1;
 		auto it2 = match_data[i].first.begin();
