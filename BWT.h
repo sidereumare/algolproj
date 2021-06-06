@@ -3,10 +3,12 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-
+#include <thread>
+#include <mutex>
 using namespace std;
 class BWT
 {
+	mutex _mux;
 	int search(const string& target, const vector<int>& snipPos);
 public:
 	vector<string> misRead;

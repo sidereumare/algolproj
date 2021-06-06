@@ -52,18 +52,32 @@ void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vec
     
     //복원한 문자열이 들어갈 공간 미리 지정
     restore.assign(ref.length(), 'N');
+    
 
-    for (const auto& l : ShortLeads) {
-        int pos = -1;
-        pos = search(l, snipPos);
-        if (pos == -1) {
-            misRead.push_back(l);
-            continue;
-        }
 
-        for (int i = 0; i<l.length(); i++) {
-            restore[pos + i] = l[i];
+    auto func = [this, &ShortLeads, &snipPos](int start) {
+        for (int i = start; i < ShortLeads.size(); i += 10) {
+            int pos = -1;
+            pos = search(ShortLeads[i], snipPos);
+            if (pos == -1) {
+                _mux.lock();
+                misRead.push_back(ShortLeads[i]);
+                _mux.unlock();
+                continue;
+            }
+
+            for (int j = 0; j < ShortLeads[i].length(); j++) {
+                restore[pos + j] = ShortLeads[i][j];
+            }
         }
+    };
+
+    vector<thread> t;
+    for (int i = 0; i < 10; i++) {
+        t.push_back(thread(func, i));
+    }
+    for (auto& e : t) {
+        e.join();
     }
 
 }

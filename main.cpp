@@ -45,8 +45,8 @@ int main() {
 	//30000000
 	InputProc input;
 	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortRead.txt");
-	cout << input.ref.size();
-	return 0;
+	//cout << input.ref.size();
+	//return 0;
 	//이미 있는데 make호출시 shortreads.txt와 modifiedseq.txt, inputProc의 내용이 변경됨
 	input.makeRandomReads(3000, 200, rng);
 	cout << "데이터 생성완료" << '\n';
