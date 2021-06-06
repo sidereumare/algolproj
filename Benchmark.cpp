@@ -145,7 +145,7 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 	}
 }
 
-vector<int>* Benchmark::computeSP(const string ShortLeads) { //각 shortRead의 한 문장씩..?
+vector<int>* Benchmark::computeSP(const string& ShortLeads) { //각 shortRead의 한 문장씩..?
 
 	int k = ShortLeads.size();  //패턴의 길이 
 

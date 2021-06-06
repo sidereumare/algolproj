@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <chrono>
 
 using namespace std;
 class Benchmark
@@ -18,6 +19,6 @@ public:
 	void RestoreKMP(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos);
 
 	//ComputeSP()
-	vecotr<int>* computeSP(const string& ShortLead);
+	vector<int>* computeSP(const string& ShortLead);
 };
 

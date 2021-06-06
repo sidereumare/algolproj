@@ -122,9 +122,9 @@ int main() {
 
 	//성능 벤치마크용
 	Benchmark bench;
-	cout << "benchmark 시작\n";
+	cout << "benchmark - KMP 시작\n";
 	chrono::system_clock::time_point bench_start = chrono::system_clock::now();
-	bench.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
+	bench.RestoreKMP(input.ShortReads, input.ref, input.snipPos);
 	chrono::system_clock::time_point bench_end = chrono::system_clock::now();
 	cout << "Construct완료\n";
 	cout << chrono::duration<double>(bench_end - bench_start).count() << '\n';
