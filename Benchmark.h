@@ -18,6 +18,6 @@ public:
 	void RestoreKMP(const vector<string>& ShortLeads, const string& ref, const vector<int>& snipPos);
 
 	//ComputeSP()
-	int* computeSP(const string ShortLead);
+	vecotr<int>* computeSP(const string& ShortLead);
 };
 
