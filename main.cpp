@@ -140,7 +140,7 @@ int main() {
 	fout << result1;
 	fout.close();
 
-
+	/*
 	Benchmark bench1;
 	cout << "benchmark ½ÃÀÛ\n";
 	chrono::system_clock::time_point bench_start1 = chrono::system_clock::now();
@@ -151,7 +151,7 @@ int main() {
 	ofstream fout("benchmarkreconstructed.txt");
 	fout << bench1.restore;
 	fout.close();
-
+	*/
 
 
 
