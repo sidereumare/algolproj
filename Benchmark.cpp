@@ -101,10 +101,8 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 		/*
 		 의도 : 각 shortRead의 sp테이블을 계산하려함..
 		*/
-		chrono::system_clock::time_point start = chrono::system_clock::now();
 		sp = computeSP(ShortLeads[t]); //
-		/*for (auto h = sp->begin(); h != sp->end(); h++)
-			cout << *h << " ";*/
+
 
 			//cout << ShortLeads[i]<<endl;
 		int j = 0; // 현재 ShortLeads의인덱스 
@@ -123,7 +121,6 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 			else {
 				mis++;
 				misRead.push_back(ShortLeads[t][j]);
-				cout << mis << "안맞아" << endl;
 				if (mis > miss_upper) {
 					chk = false;
 					break;
@@ -134,14 +131,8 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 		if (chk && (alreadyfound.find(j) != alreadyfound.end())) {
 			for (int l = 0; l < k; l++) {
 				restore[j + l] = ShortLeads[t][l];
-				cout << "restore" << endl;
 			}
 		}
-		chrono::system_clock::time_point end = chrono::system_clock::now();
-		cout << "쇼트리드와 ref 비교 \n";
-		cout << chrono::duration<double>(end - start).count() << '\n';
-		cout << "어디까지왔낭 t" << t << endl;
-
 	}
 }
 
