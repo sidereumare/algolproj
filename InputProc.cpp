@@ -110,11 +110,11 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 
 	
 	//변이 크기
-	uniform_int_distribution<int> rng_size(20, 40);
+	uniform_int_distribution<int> rng_size(10, 30);
 	//변이 위치
-	uniform_int_distribution<int> rng_pos(1000, ref.length() - 3000000);
+	uniform_int_distribution<int> rng_pos(1000, ref.length() - 3000);
 	//변이 갯수
-	uniform_int_distribution<int> rng_num(1000, 1100);
+	uniform_int_distribution<int> rng_num(60, 90);
 
 	//reverse
 	int num = rng_num(rng);

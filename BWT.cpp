@@ -66,11 +66,6 @@ void BWT::Restore(const vector<string>& ShortLeads, const string& ref, const vec
         }
     }
 
-    cout << restore << '\n';
-    for (auto t : originpos) {
-        cout << t << '\n';
-    }
-
 }
 
 void BWT :: makeBWT(const string& ref){

@@ -122,6 +122,13 @@ string Concat::concat(const string& res, vector<string>& mis)
 		}
 	}
 
+	if (before + 1 == match_data.size()) {
+		for (int i = 0; i < res_.size(); i++) {
+			result += res_[i];
+		}
+		return result;
+	}
+
 	//첫번째로 등장하는 수가 0이 아니면 그 수-1 까지 문자열 추가
 	int chk = match_data[before + 1].first.begin()->first;
 	for (int i = 0; i < chk; i++) {

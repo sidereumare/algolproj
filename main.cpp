@@ -45,43 +45,51 @@ int main() {
 	//30000000
 	InputProc input;
 	input.getfile("NC_000022.11[1..50818468].fa", "Clinical  dbSNP b154 v2.BED", "ShortRead.txt");
+	cout << input.ref.size();
+	return 0;
 	//이미 있는데 make호출시 shortreads.txt와 modifiedseq.txt, inputProc의 내용이 변경됨
-	input.makeRandomReads(1000000, 100, rng);
+	input.makeRandomReads(3000, 200, rng);
 	cout << "데이터 생성완료" << '\n';
 
-	////1-1 첫번째과정
-	////BWT알고리즘 활용
-	//chrono::system_clock::time_point bwt_start = chrono::system_clock::now();
-	//BWT bwt;
-	//bwt.makeBWT(input.ref);
-	//bwt.Restore(input.ShortReads, input.ref, input.snipPos);
-	//chrono::system_clock::time_point bwt_end = chrono::system_clock::now();
-	//cout << chrono::duration<double>(bwt_end - bwt_start).count() << '\n';
+	//1-1 첫번째과정
+	//BWT알고리즘 활용
+	chrono::system_clock::time_point bwt_start = chrono::system_clock::now();
+	BWT bwt;
+	bwt.makeBWT(input.ref);
+	bwt.Restore(input.ShortReads, input.ref, input.snipPos);
+	chrono::system_clock::time_point bwt_end = chrono::system_clock::now();
+	cout << "BWT완료\n";
+	cout << chrono::duration<double>(bwt_end - bwt_start).count() << '\n';
 
-	////2-1
-	////euiler로 BWT로 만들어진 misRead를 처리하여 sequence를 복원
-	//chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
-	//Euiler bwt_euiler;
-	//vector<string>* restored_mis;
-	//restored_mis = bwt_euiler.Restore(bwt.misRead, 61);
-	//chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
-	//cout << chrono::duration<double>(euiler_end - euiler_start).count() << '\n';
+	//2-1
+	//euiler로 BWT로 만들어진 misRead를 처리하여 sequence를 복원
+	chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
+	Euiler bwt_euiler;
+	vector<string>* restored_mis;
+	restored_mis = bwt_euiler.Restore(bwt.misRead, 61);
+	chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
+	cout << "euiler완료\n";
+	cout << chrono::duration<double>(euiler_end - euiler_start).count() << '\n';
 
-	////3-1 복원한 sequence를 1-1단계에서 복원한 sequence와 concat시킵니다.
-	//string result = Concat::concat(bwt.restore, *restored_mis);
-
+	//3-1 복원한 sequence를 1-2단계에서 복원한 sequence와 concat시킵니다.
+	chrono::system_clock::time_point concat_start = chrono::system_clock::now();
+	Concat con;
+	string result = con.concat(bwt.restore, *restored_mis);
+	chrono::system_clock::time_point concat_end = chrono::system_clock::now();
+	cout << "Construct완료\n";
+	cout << chrono::duration<double>(concat_end - concat_start).count() << '\n';
+	
+	
+	ofstream fout("1-1reconstructed.txt");
+	fout << result;
+	fout.close();
 	//int rst = calcDifference(input.modifiedSeq, result);
 	//cout << rst << '\n';
 
 	
-	//BoyerMoore bm;
-	//vector<string> read = { "TTC","CAT", "CCC" };
-	//string ref = "ATCATA";
-	//bm.Restore(read, ref, {0});
-	//cout << bm.restore << "\n";
-	//cout << bm.misRead[0] << '\n';
-	// 
-	//1-2
+
+
+	////1-2
 	//Boyer-Moore Algorithm 활용
 	chrono::system_clock::time_point boyer_start = chrono::system_clock::now();
 	BoyerMoore bm;
@@ -102,13 +110,13 @@ int main() {
 
 	//3-2 복원한 sequence를 1-2단계에서 복원한 sequence와 concat시킵니다.
 	chrono::system_clock::time_point concat_start1 = chrono::system_clock::now();
-	Concat con;
-	string result1 = con.concat(bm.restore, *restored_mis1);
+	Concat con1;
+	string result1 = con1.concat(bm.restore, *restored_mis1);
 	chrono::system_clock::time_point concat_end1 = chrono::system_clock::now();
 	cout << "Construct완료\n";
 	cout << chrono::duration<double>(concat_end1 - concat_start1).count() << '\n';
 
-	ofstream fout("1-2reconstructed.txt");
+	fout.open("1-2reconstructed.txt");
 	fout << result1;
 	fout.close();
 
@@ -121,16 +129,16 @@ int main() {
 
 
 	//성능 벤치마크용
-	Benchmark bench;
-	cout << "benchmark 시작\n";
-	chrono::system_clock::time_point bench_start = chrono::system_clock::now();
-	bench.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
-	chrono::system_clock::time_point bench_end = chrono::system_clock::now();
-	cout << "Construct완료\n";
-	cout << chrono::duration<double>(bench_end - bench_start).count() << '\n';
-	fout.open("benchmarkreconstructed.txt");
-	fout << bench.restore;
-	fout.close();
+	//Benchmark bench;
+	//cout << "benchmark 시작\n";
+	//chrono::system_clock::time_point bench_start = chrono::system_clock::now();
+	//bench.RestoreBrute(input.ShortReads, input.ref, input.snipPos);
+	//chrono::system_clock::time_point bench_end = chrono::system_clock::now();
+	//cout << "Construct완료\n";
+	//cout << chrono::duration<double>(bench_end - bench_start).count() << '\n';
+	//ofstream fout("benchmarkreconstructed.txt");
+	//fout << bench.restore;
+	//fout.close();
 
 	//vector<string> mis = { "00100", "10100"};
 	//chrono::system_clock::time_point boyer_start = chrono::system_clock::now();

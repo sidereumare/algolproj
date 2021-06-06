@@ -39,7 +39,7 @@ void Benchmark::RestoreBrute(const vector<string>& ShortLeads, const string& ref
 			for (int l = 0; l < k; l++) { // 패턴의 길이 보다 작을 때
 				if (ref[j + l] != ShortLeads[i][l]) { // reference의 시작위치 j에 l을 더한 것과, shortLeads
 					mis++; // 다르면 mis ++
-					misRead.push_back(ShortLeads[i][l]);
+					//misRead.push_back(ShortLeads[i][l]);
 				}
 				if (mis > miss_upper) { // 해당 반복문에서 mis의 개수가 허용선을 넘을 경우
 					chk = false;
