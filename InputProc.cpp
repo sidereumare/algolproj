@@ -112,7 +112,7 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 		}
 	}
 
-	int m_cnt = ((double)ref.length() * 0.0037) / (double)3 / (double)40;
+	int m_cnt = ((double)ref.length() * 0.10) / (double)3 / (double)40;
 	if (m_cnt < 10) {
 		m_cnt = 10;
 	}

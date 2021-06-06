@@ -57,35 +57,36 @@ int main() {
 
 	//1-1 첫번째과정
 	//BWT알고리즘 활용
-	chrono::system_clock::time_point bwt_start = chrono::system_clock::now();
-	BWT bwt;
-	bwt.Restore(input.ShortReads, input.ref, input.snipPos);
+	//chrono::system_clock::time_point bwt_start = chrono::system_clock::now();
+	//BWT bwt;
+	//bwt.Restore(input.ShortReads, input.ref, input.snipPos);
 	//chrono::system_clock::time_point bwt_end = chrono::system_clock::now();
-	cout << "BWT완료\n";
+	//cout << "BWT완료\n";
 	//cout << chrono::duration<double>(bwt_end - bwt_start).count() << '\n';
-	
+	//
 	//2-1
 	//euiler로 BWT로 만들어진 misRead를 처리하여 sequence를 복원
 	//chrono::system_clock::time_point euiler_start = chrono::system_clock::now();
-	Euiler bwt_euiler;
-	vector<string>* restored_mis;
-	restored_mis = bwt_euiler.Restore(bwt.misRead, 71);
+	//Euiler bwt_euiler;
+	//vector<string>* restored_mis;
+	//restored_mis = bwt_euiler.Restore(bwt.misRead, 71);
 	//chrono::system_clock::time_point euiler_end = chrono::system_clock::now();
-	cout << "euiler완료\n";
+	//cout << "euiler완료\n";
 	//cout << chrono::duration<double>(euiler_end - euiler_start).count() << '\n';
 
 	//3-1 복원한 sequence를 1-2단계에서 복원한 sequence와 concat시킵니다.
 	//chrono::system_clock::time_point concat_start = chrono::system_clock::now();
-	Concat con;
-	string result = con.concat(bwt.restore, *restored_mis);
-	chrono::system_clock::time_point concat_end = chrono::system_clock::now();
-	cout << "Construct완료\n";
-	cout << chrono::duration<double>(concat_end- bwt_start).count() << '\n';
-	
+	//Concat con;
+	//string result = con.concat(bwt.restore, *restored_mis);
+	//chrono::system_clock::time_point concat_end = chrono::system_clock::now();
+	//cout << "Construct완료\n";
+	//cout << chrono::duration<double>(concat_end- bwt_start).count() << '\n';
+	//
 	
 	ofstream fout("1-1reconstructed.txt");
-	fout << result;
+	//fout << result;
 	fout.close();
+	
 	//int rst = calcDifference(input.modifiedSeq, result);
 	//cout << rst << '\n';
 
@@ -136,7 +137,7 @@ int main() {
 	cout << "kmp종료\n";
 	cout << chrono::duration<double>(bench_end - bench_start).count() << '\n';
 	fout.open("kmpreconstructed.txt");
-	fout << result1;
+	fout << bench.restore;
 	fout.close();
 
 	
