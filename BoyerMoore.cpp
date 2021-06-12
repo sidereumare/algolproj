@@ -52,10 +52,7 @@ void BoyerMoore::Restore(const vector<string>& ShortLeads, const string& ref, co
                     if (binary_search(snipPos.begin(), snipPos.end(), s + k / 2)) {
                         if (middleCh != ref[s + k / 2]) missNum++; // 가운데 문자 비교 진행
                         if (binary_search(snipPos.begin(), snipPos.end(), s)) {
-                            if (firstCh != ref[s]) { // 첫번째 문자 비교 진행 
-                                missNum++;
-                                if (missNum == miss) break; // 셋다 같지 않으면 다음 shortread로 넘어가기 
-                            }
+                            if (firstCh != ref[s]) missNum++; // 첫번째 문자 비교 진행 
                             // 패턴에서 현재 가리키는 문자와 레퍼런스에서 현재 가리키는 문자가 같다면 계속 j를 shortread의 마지막에서부터 줄여간다.
                             // 오->왼 순으로 비교해 나간다.
                             while (j >= 0) {
@@ -68,7 +65,7 @@ void BoyerMoore::Restore(const vector<string>& ShortLeads, const string& ref, co
                                 }
                                 else { // missMatch 가 발생하면 
                                     missNum++; // miss된 개수 하나 늘리고 
-                                    if (missNum >= miss) break; // 3개이상 miss 되었을 경우 그만두기 
+                                    if (missNum > miss) break; // 3개이상 miss 되었을 경우 그만두기 
                                 }
                             }
 
