@@ -12,56 +12,60 @@ void InputProc::getfile(const string refFile, const string snipFile, const strin
 		return;
 	}
 	getline(fin, str);
-	str.reserve(60000000);
-	while (fin.peek() != EOF) {
-		getline(fin, str);
-		ref.append(str);
-	}
+	//테스트용 프로그램에서만
+	ref = str;
+	//fa파일일 때 밑에 주석 해제
+	//str.reserve(60000000);
+	//while (fin.peek() != EOF) {
+	//	getline(fin, str);
+	//	ref.append(str);
+	//}
 	fin.close();
 	cout << refFile << "로드 완료\n";
 
-	//snip위치 입력
-	fin.open(snipFile);
-	//파일 없을 때
-	if (!fin.is_open()) {
-		return;
-	}
-	snipPos.reserve(20000);
-	while (fin.peek() != EOF) {
-		getline(fin, str);
-		str = str.substr(13, 9);
-		snipPos.push_back(stoi(str) - 1);
-	}
-	fin.close();
-	cout << snipFile << "로드 완료\n";
+	//snip위치 입력용 코드
+	//fin.open(snipFile);
+	////파일 없을 때
+	//if (!fin.is_open()) {
+	//	return;
+	//}
+	//snipPos.reserve(20000);
+	//while (fin.peek() != EOF) {
+	//	getline(fin, str);
+	//	str = str.substr(13, 9);
+	//	snipPos.push_back(stoi(str) - 1);
+	//}
+	//fin.close();
+	//cout << snipFile << "로드 완료\n";
 
 
+	//snip데이터와 fa파일 전처리
 	//N으로 표기된 부분 지우고 snip데이터 지운 부분에 맞추기
-	string pn;
-	vector<int> snipProcessed;
-	pn.reserve(60000000);
-	snipProcessed.reserve(300000);
-	//N의 갯수
-	int cnt = 0;
-	int j = 0;
-	for (int i = 0; i < ref.size(); i++) {
-		if (ref[i] != 'N') {
-			pn.push_back(ref[i]);
-			//스닙 처리
-			if (j < snipPos.size() && snipPos[j] == i) {				
-				snipProcessed.push_back(i - cnt);
-				j++;
-				//중복될 경우 j++
-				while (j < snipPos.size() - 1 && snipPos[j] == snipPos[j + 1])j++;
-			}
-		}
-		else {
-			cnt++;
-		}
-	}
-	ref = pn;
-	snipPos = snipProcessed;
-	cout << "N삭제 완료\n";
+	//string pn;
+	//vector<int> snipProcessed;
+	//pn.reserve(60000000);
+	//snipProcessed.reserve(300000);
+	////N의 갯수
+	//int cnt = 0;
+	//int j = 0;
+	//for (int i = 0; i < ref.size(); i++) {
+	//	if (ref[i] != 'N') {
+	//		pn.push_back(ref[i]);
+	//		//스닙 처리
+	//		if (j < snipPos.size() && snipPos[j] == i) {				
+	//			snipProcessed.push_back(i - cnt);
+	//			j++;
+	//			//중복될 경우 j++
+	//			while (j < snipPos.size() - 1 && snipPos[j] == snipPos[j + 1])j++;
+	//		}
+	//	}
+	//	else {
+	//		cnt++;
+	//	}
+	//}
+	//ref = pn;
+	//snipPos = snipProcessed;
+	//cout << "N삭제 완료\n";
 
 
 	//reads파일 로드 완료
@@ -78,13 +82,14 @@ void InputProc::getfile(const string refFile, const string snipFile, const strin
 	fin.close();
 	cout << readsFile << "로드 완료\n";
 
-	fin.open("modifiedSeq.txt");
-	//파일 없을 때
-	if (!fin.is_open()) {
-		return;
-	}
-	fin >> modifiedSeq;
-	fin.close();
+	//목표 파일
+	//fin.open("modifiedSeq.txt");
+	////파일 없을 때
+	//if (!fin.is_open()) {
+	//	return;
+	//}
+	//fin >> modifiedSeq;
+	//fin.close();
 }
 
 //테스트 시퀀스와 랜덤한 리드 생성

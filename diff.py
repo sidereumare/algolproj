@@ -3,7 +3,6 @@ import sys
 import os
 
 if __name__ == "__main__":
-    print("diff.exe path1 path2 형식으로 입력해 주세요")
     path1 = sys.argv[1]
     path2 = sys.argv[2]
 
@@ -19,6 +18,6 @@ if __name__ == "__main__":
 
     dis = levenshtein(seq1, seq2)
 
-    print(1-(dis/max(len(seq1), len(seq2))))
+    print("정확도: " +str(1-(dis/max(len(seq1), len(seq2)))) + "%")
 
     os.system("Pause")
