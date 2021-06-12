@@ -75,19 +75,16 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 	restore.resize(m, 'N'); // 
 
 	//허용할 mismatch 최대 갯수
-	int miss_upper = 3;
+	int miss_upper = 10;
 
 	set<int> alreadyfound; // 탐색된 위치인가?
 
-	//아무것도 찾지못한 상태의 dna
-	string make(ref.length(), 'N'); // 이거 해야하나..
 
 	//mismatch 발생시 misRead로 저장 
 	string misRead(ref.length(), 'N');
 
 	//sp테이블 
 	vector<int>* sp;
-
 
 	//각 shortread 한 문장씩 끝까지 반복
 	for (int t = 0; t < n; t++) {
@@ -97,7 +94,7 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 		//cout << ShortLeads[i];
 		/* mis match 체크*/
 		int mis = 0;
-		bool chk = true;
+		bool chk = false;
 		/*
 		 의도 : 각 shortRead의 sp테이블을 계산하려함..
 		*/
@@ -111,8 +108,9 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 				j = sp->at(j - 1); // 0부터 시작해서 j-1
 			if (ShortLeads[t].at(j) == ref.at(i)) {
 				if (j == k - 1) {
-					alreadyfound.insert(i - k + 1);
-					j = sp->at(j);
+					chk = true;
+					j = i - j;
+					break;
 				}
 				else {
 					j++;
@@ -120,15 +118,16 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 			}
 			else {
 				mis++;
-				misRead.push_back(ShortLeads[t][j]);
+				j++;
 				if (mis > miss_upper) {
 					chk = false;
-					break;
+					mis = 0;
+					j = 0;
 				}
 			}
 		}
 
-		if (chk && (alreadyfound.find(j) != alreadyfound.end())) {
+		if (chk) {
 			for (int l = 0; l < k; l++) {
 				restore[j + l] = ShortLeads[t][l];
 			}

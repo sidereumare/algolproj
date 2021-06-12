@@ -7,6 +7,10 @@ void InputProc::getfile(const string refFile, const string snipFile, const strin
 
 	//레퍼런스 입력
 	fin.open(refFile);
+	//파일 없을 때
+	if (!fin.is_open()) {
+		return;
+	}
 	getline(fin, str);
 	str.reserve(60000000);
 	while (fin.peek() != EOF) {
@@ -18,6 +22,10 @@ void InputProc::getfile(const string refFile, const string snipFile, const strin
 
 	//snip위치 입력
 	fin.open(snipFile);
+	//파일 없을 때
+	if (!fin.is_open()) {
+		return;
+	}
 	snipPos.reserve(20000);
 	while (fin.peek() != EOF) {
 		getline(fin, str);
@@ -112,7 +120,7 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 		}
 	}
 
-	int m_cnt = ((double)ref.length() * 0.10) / (double)3 / (double)40;
+	int m_cnt = ((double)ref.length() * 0.037) / (double)3 / (double)40;
 	if (m_cnt < 10) {
 		m_cnt = 10;
 	}
@@ -120,7 +128,7 @@ void InputProc::makeRandomReads(int n, int k, random_device& rng)
 	//변이 크기
 	uniform_int_distribution<int> rng_size(30, 50);
 	//변이 위치
-	uniform_int_distribution<int> rng_pos(1000, ref.length() - 2000);
+	uniform_int_distribution<int> rng_pos(1000, ref.length() - 1000);
 	//변이 갯수
 	uniform_int_distribution<int> rng_num(m_cnt - 10, m_cnt + 10);
 

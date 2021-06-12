@@ -50,7 +50,7 @@ x64/
 *.lib
 
 # Executables
-*.exe
+#*.exe
 *.out
 *.app
 
