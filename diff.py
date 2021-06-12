@@ -18,6 +18,6 @@ if __name__ == "__main__":
 
     dis = levenshtein(seq1, seq2)
 
-    print("정확도: " +str(1-(dis/max(len(seq1), len(seq2)))) + "%")
+    print("정확도: " +str((1-(dis/max(len(seq1), len(seq2))))*100) + "%")
 
     os.system("Pause")
