@@ -66,6 +66,7 @@ void BoyerMoore::Restore(const vector<string>& ShortLeads, const string& ref, co
                                 else { // missMatch 가 발생하면 
                                     missNum++; // miss된 개수 하나 늘리고 
                                     if (missNum > miss) break; // 3개이상 miss 되었을 경우 그만두기 
+                                    else{j--; // 그 외에는 계속 진행하기 }
                                 }
                             }
 
