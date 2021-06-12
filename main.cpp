@@ -68,7 +68,7 @@ string bwt(InputProc& input, int lmer) {
 
 
 	ofstream fout("1-1reconstructed.txt");
-	//fout << result;
+	fout << result;
 	fout.close();
 
 	return "1-1reconstructed.txt";
