@@ -75,7 +75,7 @@ void Benchmark::RestoreKMP(const vector<string>& ShortLeads, const string& ref, 
 	restore.resize(m, 'N'); // 
 
 	//허용할 mismatch 최대 갯수
-	int miss_upper = 10;
+	int miss_upper = 3;
 
 	set<int> alreadyfound; // 탐색된 위치인가?
 

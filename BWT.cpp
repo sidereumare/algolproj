@@ -2,7 +2,10 @@
 
 int BWT::search(const string& target ,const vector<int>& snipPos)
 {
+    int upper = 3;
+
     auto func = [&](const string& target, int start) {
+        int cnt = 0;
         int current = start;
         for (int i = target.length() - 2; i >= 0 ; i--) {
             if (bwt[current] == '$') {
@@ -14,9 +17,12 @@ int BWT::search(const string& target ,const vector<int>& snipPos)
             }
             //두개 다르면 종료
             else if(target[i] != bwt[current]) {
+                cnt++;
+                current = postofirst[current];
+                if(cnt>upper){
                 //if (!binary_search(snipPos.begin(), snipPos.end(), originpos[postofirst[current]])) {
                     return false;
-                //}
+                }
             }
         }
         return true;
@@ -46,6 +52,9 @@ int BWT::search(const string& target ,const vector<int>& snipPos)
     
     for (int i = start; i < end; i++) {
         if (func(target, i)) {
+            //if (chkvisit.insert(i).second) {
+            //    continue;
+            //}
             return originpos[i] - target.length() + 1;
         }
     }

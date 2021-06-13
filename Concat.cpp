@@ -130,37 +130,58 @@ string Concat::concat(const string& res, vector<string>& mis)
 	}
 
 	//첫번째로 등장하는 수가 0이 아니면 그 수-1 까지 문자열 추가
-	int chk = match_data[before + 1].first.begin()->first;
+	before += 1;
+	int chk = match_data[before].first.begin()->first;
 	for (int i = 0; i < chk; i++) {
 		result += res_[i];
 	}
 
-	//첫번째
-	result += mis[match_data[before + 1].second];
-	for (int i = before + 2; i < match_data.size(); i++) {
-		auto it1 = match_data[i - 1].first.end() - 1;
-		auto it2 = match_data[i].first.begin();
-		//일반적인 경우
-		if (it1->first == it2->first) {
-			int pos = mis[match_data[i - 1].second].size() - it1->second;
-			result.replace(pos, result.size() - pos, mis[match_data[i].second]);
-		}
-		//중간에 값이 등장하지 않는 경우
-		else if (it1->first < it2->first) {
-			for (int j = it1->first + 1; j < it2->first; j++) {
-				result += res_[j];
+	
+	//체크하면서 사이에 낀 부분 체크
+	for (int i = chk; i < res_.size(); i++) {
+		//현재 상태에 match_data가 있는지 체크
+		bool chk_isin = false;
+		int pos = 0;
+		if (before < match_data.size()) {
+			for (auto& a : match_data[before].first) {
+				if (a.first == i) {
+					chk_isin = true;
+					pos = a.second;
+					i = (match_data[before].first.end() - 1)->first;
+				}
 			}
-			result += mis[match_data[i].second];
 		}
-		//서로 많이 겹치는 경우
-		else {
-			while (it1->first != it2->first && it1 != match_data[i - 1].first.begin()) {
-				it1--;
-			}
-			int pos = mis[match_data[i - 1].second].size() - it1->second;
-			result.replace(pos, result.size() - pos, mis[match_data[i].second]);
+		//한번도 등장 안하면 추가
+		if (!chk_isin) {
+			result += res_[i];
 		}
 	}
+	//첫번째
+	//result += mis[match_data[before + 1].second];
+	//for (int i = before + 2; i < match_data.size(); i++) {
+	//	auto it1 = match_data[i - 1].first.end() - 1;
+	//	auto it2 = match_data[i].first.begin();
+	//	//일반적인 경우
+	//	if (it1->first == it2->first) {
+	//		int pos = mis[match_data[i - 1].second].size() - it1->second;
+	//		result.replace(pos, result.size() - pos, mis[match_data[i].second]);
+	//	}
+	//	//중간에 값이 등장하지 않는 경우
+	//	else if (it1->first < it2->first) {
+	//		for (int j = it1->first + 1; j < it2->first; j++) {
+	//			result += res_[j];
+	//		}
+	//		result += mis[match_data[i].second];
+	//	}
+	//	//서로 많이 겹치는 경우
+	//	else {
+	//		while (it1->first != it2->first && it1 != match_data[i - 1].first.begin()) {
+	//			it1--;
+	//		}
+	//		int pos = mis[match_data[i - 1].second].size() - it1->second;
+	//		result.replace(pos, result.size() - pos, mis[match_data[i].second]);
+	//	}
+	//}
 
 	return result;
 }
