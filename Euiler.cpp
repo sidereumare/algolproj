@@ -90,6 +90,9 @@ void Euiler::makepath(int current, vector<int> &st, vector<vector<int> > &ans)
 			//다음 노드 방문
 			makepath(c.first, st, ans);
 
+			//체크 해제
+			c.second.second = true;
+
 			//마지막 노드가 아니라고 체크
 			chk = false;
 			break;

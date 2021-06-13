@@ -178,9 +178,9 @@ int main() {
 		if (test == 1) {
 			int lmer;
 			cout << "현재 shortread길이 " << input.ShortReads[0].length() << '\n';
-			cout << "lmer값을 입력해 주세요(10~shortread길이 - 3)\n";
+			cout << "lmer값을 입력해 주세요(3~shortread길이 - 3)\n";
 			cin >> lmer;
-			if (lmer > input.ShortReads[0].length() - 3 || lmer < 10) {
+			if (lmer > input.ShortReads[0].length() - 3 || lmer < 3) {
 				break;
 			}
 			rstpath = bwt(input, lmer);
@@ -189,9 +189,9 @@ int main() {
 		else if (test == 2) {
 			int lmer;
 			cout << "현재 shortread길이 " << input.ShortReads[0].length() << '\n';
-			cout << "lmer값을 입력해 주세요(10~shortread길이 - 3)\n";
+			cout << "lmer값을 입력해 주세요(3~shortread길이 - 3)\n";
 			cin >> lmer;
-			if (lmer > input.ShortReads[0].length() - 3 || lmer < 10) {
+			if (lmer > input.ShortReads[0].length() - 3 || lmer < 3) {
 				break;
 			}
 			rstpath = bm(input, lmer);
